@@ -1,0 +1,48 @@
+
+<html lang="en" dir="ltr" data-cast-api-enabled="true">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex">
+<title>Plyr</title>
+<link rel="stylesheet" href="style.css">
+<style type="text/css" media="all">
+         
+        </style>
+</head>
+<body class="plyr">
+<video id="player" playsinline preload="metadata" crossorigin="*">
+<source src="https://nw32.seedr.cc/media/video/lq_hls/6b95bfe2f96cb81098eb0e0e1a9c0211a600ef86/vid.m3u8" type="video/m3u8" size="Auto">
+<source src="" type="video/mp4" size="Auto">
+<track kind="captions" label="Portugu�s" srclang="pt" src="">
+</video>
+</body>
+<script src="//cdn.jsdelivr.net/npm/hls.js@latest" type="517f0129355817631097bc00-text/javascript"></script>
+<script src="https://cdn.plyr.io/3.5.10/plyr.js" crossorigin="anonymous" type="517f0129355817631097bc00-text/javascript"></script>
+<script type="517f0129355817631097bc00-text/javascript">
+    document.addEventListener("DOMContentLoaded", function(event) {
+       const controls = ['rewind','play','play-large','fast-forward','progress', 'current-time','duration','mute','volume','download','settings','airplay','pip','fullscreen'],settings= ['captions', 'quality','speed'];
+        var player = new Plyr(document.getElementById('player'), {quality: {default: 1080,options: [1080, 720, 480],forced: true,onChange: null,},controls,settings});
+            player.on('ready', function(event){
+                var instance = event.detail.plyr;
+
+                var hslSource = null;
+                var sources = instance.media.querySelectorAll('source'), i;
+                for (i = 0; i < sources.length; ++i) {
+                    if(sources[i].src.indexOf('.m3u8') > -1){
+                        hslSource = sources[i].src;
+                    }
+                }
+
+                if (hslSource !== null && Hls.isSupported()) {
+                    var hls = new Hls();
+                        hls.loadSource(hslSource);
+                        hls.attachMedia(instance.media);
+                        hls.on(Hls.Events.MANIFEST_PARSED,function() {
+                            console.log('MANIFEST_PARSED');
+                        });
+                }
+              console.log(player.source);
+            });
+    });
+</script>
+<script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="517f0129355817631097bc00-|49" defer=""></script></html>
